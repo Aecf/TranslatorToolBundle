@@ -1,0 +1,10 @@
+parameters:
+    translator_tool.auto_create_missing.enabled:
+    translator_tool.auto_create_missing.format: 
+
+services:
+    data_collector.translator_tool:
+        class: MD\TranslatorToolBundle\DataCollector\TranslatorToolDataCollector
+        arguments: ['@translator.data_collector', '@translation.loader', '@translation.writer', '%kernel.root_dir%', '%translator_tool.auto_create_missing.enabled%', '%translator_tool.auto_create_missing.format%']
+        tags:
+            - { name: data_collector, template: "TranslatorToolBundle:DataCollector:translator_tool.html.twig", id: "translator_tool" }
