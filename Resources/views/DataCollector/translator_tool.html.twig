@@ -80,7 +80,8 @@
                 <p class="help">
                     These messages was not available for the given locale
                      but it was automatically add to the translation
-                    catalogue by TranslatorToolBundle in app/Ressources/translations.
+                    catalogue by TranslatorToolBundle in app/Ressources/translations.<br>
+                    <strong>You can edit message by clicking on it in the "Message preview" column.</strong>
                 </p>
 
                 {% if messages_new is empty %}
@@ -89,19 +90,6 @@
                     </div>
                 {% else %}
                     {{ helper.render_table(messages_new) }}
-                    
-                    <script type="text/javascript">
-                        var translations = document.querySelectorAll("[class=translation]");
-                        for (var i = 0; i < translations.length; i++)       {
-                            translations[i].addEventListener("click", function(event) {
-                            	event.srcElement.style.display = 'none';
-                                event.srcElement.nextElementSibling.style.display = 'block';
-                                event.srcElement.nextElementSibling.addEventListener("focusout", function(event) {
-                                    
-                                });
-                            });
-                        }
-                    </script>
                 {% endif %}
             </div>
         </div>
@@ -124,9 +112,61 @@
             </div>
         </div>
     </div>
+
+    <script type="text/javascript">
+        // Get translation span
+        var translations = document.querySelectorAll("[class=translation]");
+
+        // For each translation add event listener on click for display input and send edit translation
+        for (var i = 0; i < translations.length; i++) {
+            translations[i].addEventListener("click", function(event) {
+                // Hide span block
+                event.srcElement.style.display = 'none';
+
+                // Show input element
+                event.srcElement.nextElementSibling.style.display = 'block';
+
+                // Event on focus out
+                event.srcElement.nextElementSibling.addEventListener("focusout", function(event) {
+                    // Construct Ajax Request
+                    var xhttp = new XMLHttpRequest(),
+                            id = event.srcElement.getAttribute('id'),
+                            translation = event.srcElement.value,
+                            domain = event.srcElement.getAttribute('data-domain');
+
+                    xhttp.open("POST", "{{ path('md_translatortool_default_edit') }}", true);
+                    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                    xhttp.send("id=" + id + "&translation=" + translation + "&domain=" + domain);
+
+                    // Callback Ajax Request Complete
+                    xhttp.onreadystatechange = function() {
+                        if (xhttp.readyState == 4) {
+                            if (xhttp.status == 200) {
+                                var res = JSON.parse(xhttp.response).params;
+
+                                // Check response consistency
+                                if (res.id == id && res.translation == translation && res.domain == domain) {
+                                    // Hide input element
+                                    event.srcElement.style.display = 'none';
+
+                                    // Show span block
+                                    event.srcElement.previousElementSibling.style.display = 'block';
+                                    event.srcElement.previousElementSibling.textContent = res.translation;
+                                } else {
+                                    alert('An error occured. Please retry.');
+                                }
+                            } else {
+                                alert('An error occured. Please retry.');
+                            }
+                        }
+                    } // xhttp-onreadystatechange
+                }); // event-focusout
+            });
+        }
+    </script>
 {% endblock %}
 
-{% macro render_table(messages) %}
+{% macro render_table(messages, edition) %}
     <table>
         <thead>
             <tr>
@@ -162,8 +202,8 @@
                     {% endif %}
                 </td>
                 <td>
-                    <span class="translation">{{ message.translation }}</span>
-                    <input type="text" value="{{ message.translation }}" name="{{ message.id }}" id="{{ message.id }}" style="display:none" />
+                    <span class="translation" style="cursor: pointer">{{ message.translation }}</span>
+                    <input type="text" value="{{ message.translation }}" name="{{ message.id }}" id="{{ message.id }}" data-domain="{{ message.domain }}" style="display:none" />
                 </td>
             </tr>
         {% endfor %}

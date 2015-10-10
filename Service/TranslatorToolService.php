@@ -67,16 +67,19 @@ class TranslatorToolService
      */
     public function createMissing($messages)
     {
-        $transPath = $this->getTransPath($this->rootDir);
-        $currentCatalogue = $this->loadCurrentMessageCatalogue($transPath, $this->locale);
+        $currentCatalogue = $this->loadCurrentMessageCatalogue();
     
         $nbAdded = 0;
         foreach($messages as $key => $message)
         {
-            if($message['state'] == DataCollectorTranslator::MESSAGE_MISSING 
+            if($message['state'] == DataCollectorTranslator::MESSAGE_MISSING
                 || $message['state'] == DataCollectorTranslator::MESSAGE_EQUALS_FALLBACK)
             {
-                $currentCatalogue->set($message['id'], $message['translation'], $message['domain']);
+                if(!$currentCatalogue->has($message['id'], $message['domain']))
+                {
+                    $currentCatalogue->set($message['id'], $message['translation'], $message['domain']);
+                }
+
                 $messages[$key]['state'] = (
                     $message['state'] == DataCollectorTranslator::MESSAGE_MISSING ? 
                     self::MESSAGE_NEW_WITHOUT_TRANSLATION : self::MESSAGE_NEW_FROM_FALLBACK
@@ -88,32 +91,37 @@ class TranslatorToolService
     
         if($nbAdded > 0)
         {
-            $this->writeCurrentMessageCatalogue($currentCatalogue, $transPath, $this->autoCreateMissingFormat);
+            $this->writeCurrentMessageCatalogue($currentCatalogue, $this->autoCreateMissingFormat);
         }
         
         return $messages;
     }
     
-    public function edit($id, $translation, $domain)
+    public function edit($catalogue, $id, $translation, $domain)
+    {
+        $catalogue->set($id, $translation, $domain);
+        $this->writeCurrentMessageCatalogue($catalogue, $this->getCatalogueMajorFormat($catalogue));
+    }
+
+    /**
+     * @param string $transPath
+     * @param string $locale
+     * @return MessageCatalogue
+     */
+    public function loadCurrentMessageCatalogue()
     {
         $transPath = $this->getTransPath($this->rootDir);
-        $currentCatalogue = $this->loadCurrentMessageCatalogue($transPath, $this->locale);
-        
-        $currentCatalogue->set($id, $translation, $domain);
-        $this->writeCurrentMessageCatalogue($currentCatalogue, $transPath, $this->getCatalogueMajorFormat($currentCatalogue));
-        
-    }
-        
-    private function loadCurrentMessageCatalogue($transPath, $locale)
-    {
-        $currentCatalogue = new MessageCatalogue($locale);
+
+        $currentCatalogue = new MessageCatalogue($this->locale);
         $this->translationLoader->loadMessages($transPath, $currentCatalogue);
 
         return $currentCatalogue;
     }
     
-    private function writeCurrentMessageCatalogue($catalogue, $transPath, $format)
+    private function writeCurrentMessageCatalogue($catalogue, $format)
     {
+        $transPath = $this->getTransPath($this->rootDir);
+
         $this->translationWriter->writeTranslations(
             $catalogue, $format,
             array(
@@ -136,7 +144,6 @@ class TranslatorToolService
             {
                 $extensions[$ext] = 1;
             }
-            
         }
         
         asort($extensions);
