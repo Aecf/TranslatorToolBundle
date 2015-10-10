@@ -1,3 +1,9 @@
+Enable Translator :
+
+# app/config/config.yml
+framework:
+    translator: { fallbacks: [en] }
+
 
 Fichier routing_dev.yml::
 
