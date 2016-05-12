@@ -5,7 +5,6 @@ code:
 
 bundle:
   build: .
-  container_name: php
   volumes_from:
     - code
   ports:
