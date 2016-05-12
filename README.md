@@ -34,7 +34,7 @@ app/AppKernel.php:
 ```php
 if (in_array($this->getEnvironment(), array('dev', 'test'))) {
     ...
-    $bundles[] = new MD\TranslatorToolBundle\TranslatorToolBundle();
+    $bundles[] = new AECF\TranslatorToolBundle\TranslatorToolBundle();
 }
 ```
 
