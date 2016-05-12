@@ -1,0 +1,14 @@
+code:
+  image: debian:jessie
+  volumes:
+    - .:/var/www
+
+bundle:
+  build: .
+  container_name: php
+  volumes_from:
+    - code
+  ports:
+    - 8080:80
+  working_dir: /var/www
+  command: bash

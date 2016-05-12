@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+        colors="true"
+        convertWarningsToExceptions="false">
+    <php>
+        <const name="PHPUNIT_RUNNING" value="true" />
+    </php>
+
+    <testsuites>
+        <testsuite name="TranslatorToolBundle test suite">
+            <directory>Tests</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>
