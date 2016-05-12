@@ -8,6 +8,9 @@ docker-compose build
 
 # Runs container.
 docker-compose run bundle
+
+# Runs bundle requirements
+bin/install
 ```
 
 ## Unit testing
