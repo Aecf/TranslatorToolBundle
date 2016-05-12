@@ -90,6 +90,8 @@ class TranslatorToolService
             $this->writeCurrentMessageCatalogue($currentCatalogue, $this->autoCreateMissingFormat);
         }
 
+//        var_dump($messages);die;
+
         return $messages;
     }
 
@@ -129,6 +131,7 @@ class TranslatorToolService
 
     private function getCatalogueMajorFormat($catalogue)
     {
+        $extensions = array();
         foreach($catalogue->getResources() as $res) {
             $filename = explode('.', $res);
             $ext = $filename[(int)count($filename)-1];
