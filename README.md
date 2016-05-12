@@ -3,12 +3,11 @@ AECF/TranslatorToolBundle
 
 The TranslatorToolBundle adds a symfony profiler tool.
 
-Features include:
+Include:
 
 - Automatically adds your keys followed by "trans" twig filter in the translation file (create if it does not exist).
 - Adds an interface to add or edit translations, just click on the contents of your word in the "Message Preview" column, type your word and press enter.
 - Only the language of your current environment will be impacted.
-- Unit tested
 
 **Note:** This bundle does *not* provide an translation system but make it easier
 
@@ -23,14 +22,14 @@ You can install Slugify through [Composer](https://getcomposer.org):
 $ composer require aecf/translator-tool
 ```
 
-#### Enable translation :
-In your app/config/config.yml, just uncomment :
+#### Enable translation:
+In your app/config/config.yml, just uncomment:
 
     framework: translator: { fallbacks: [en] }
 
-#### Enable the bundle :
+#### Enable the bundle:
 
-app/AppKernel.php :
+app/AppKernel.php:
 
 ```php
 if (in_array($this->getEnvironment(), array('dev', 'test'))) {
@@ -39,14 +38,14 @@ if (in_array($this->getEnvironment(), array('dev', 'test'))) {
 }
 ```
 
-routing_dev.yml :
+routing_dev.yml:
 
     translator_tool:
         resource: "@TranslatorToolBundle/Controller/"
         type:     annotation
         prefix:   /translator_tool/
 
-config_dev.yml :
+config_dev.yml:
 
     translator_tool:
         auto_create_missing:
@@ -56,7 +55,7 @@ config_dev.yml :
 Result
 ------
 
-![TranslatorTool Profiler](https://github.com/Aecf/TranslatorToolBundle/tree/master/Resources/doc/profiler.png)
+![TranslatorTool Profiler](Resources/doc/profiler.png)
 
 License
 -------
