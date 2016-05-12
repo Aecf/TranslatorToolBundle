@@ -134,7 +134,7 @@
                             translation = event.srcElement.value,
                             domain = event.srcElement.getAttribute('data-domain');
 
-                    xhttp.open("POST", "{{ path('md_translatortool_default_edit') }}", true);
+                    xhttp.open("POST", "{{ path('aecf_translatortool_default_edit') }}", true);
                     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                     xhttp.send("id=" + id + "&translation=" + translation + "&domain=" + domain);
 
