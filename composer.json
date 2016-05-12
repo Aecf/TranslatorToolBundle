@@ -3,7 +3,7 @@
     "description": "A graphical user interface to manage project translations",
     "autoload": {
         "psr-4": {
-            "MD\\TranslatorToolBundle\\": ""
+            "AECF\\TranslatorToolBundle\\": ""
         }
     },
     "require": {

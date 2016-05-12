@@ -1,8 +1,8 @@
 <?php
 
-namespace MD\TranslatorToolBundle\Test;
+namespace AECF\TranslatorToolBundle\Test;
 
-use MD\TranslatorToolBundle\Service\TranslatorToolService;
+use AECF\TranslatorToolBundle\Service\TranslatorToolService;
 use Mockery as m;
 use Symfony\Bundle\FrameworkBundle\Translation\TranslationLoader;
 use Symfony\Component\Translation\Writer\TranslationWriter;
