@@ -1,6 +1,6 @@
 <?php
 
-namespace MD\TranslatorToolBundle\Tests\Controller;
+namespace AECF\TranslatorToolBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 

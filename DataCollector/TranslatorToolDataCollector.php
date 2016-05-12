@@ -1,21 +1,18 @@
 <?php
 
-namespace MD\TranslatorToolBundle\DataCollector;
+namespace AECF\TranslatorToolBundle\DataCollector;
 
 use Symfony\Component\Translation\DataCollector\TranslationDataCollector;
 use Symfony\Component\Translation\DataCollectorTranslator;
-use MD\TranslatorToolBundle\Service\TranslatorToolService;
+use AECF\TranslatorToolBundle\Service\TranslatorToolService;
 
-/**
- * @author Mathieu DUMOUTIER <mathieu@dumoutier.fr>
- */
-class TranslatorToolDataCollector extends TranslationDataCollector 
-{    
+class TranslatorToolDataCollector extends TranslationDataCollector
+{
     /**
      * @var TranslatorToolService
      */
     private $translatorTool;
-    
+
     /**
      * @var boolean
      */
@@ -32,14 +29,14 @@ class TranslatorToolDataCollector extends TranslationDataCollector
         $this->translatorTool = $translatorTool;
         $this->autoCreateMissingEnabled = $autoCreateMissingEnabled;
     }
-    
+
     /**
      * {@inheritdoc}
      */
     public function lateCollect()
     {
         parent::lateCollect();
-        
+
         // Automatic creation of missing translation (if enabled)
         if(true === $this->autoCreateMissingEnabled)
         {
@@ -48,7 +45,7 @@ class TranslatorToolDataCollector extends TranslationDataCollector
             $this->data['messages'] = $messages;
         }
     }
-    
+
     /**
      * @return int
      */
@@ -56,7 +53,7 @@ class TranslatorToolDataCollector extends TranslationDataCollector
     {
         return isset($this->data[TranslatorToolService::MESSAGE_NEW_WITHOUT_TRANSLATION]) ? $this->data[TranslatorToolService::MESSAGE_NEW_WITHOUT_TRANSLATION] : 0;
     }
-    
+
     /**
      * @return int
      */
@@ -69,7 +66,7 @@ class TranslatorToolDataCollector extends TranslationDataCollector
     {
         return 'translator_tool';
     }
-    
+
     private function computeCount($messages)
     {
         $count = array(
@@ -79,11 +76,11 @@ class TranslatorToolDataCollector extends TranslationDataCollector
             TranslatorToolService::MESSAGE_NEW_WITHOUT_TRANSLATION => 0,
             TranslatorToolService::MESSAGE_NEW_FROM_FALLBACK => 0
         );
-    
+
         foreach ($messages as $message) {
             ++$count[$message['state']];
         }
-    
+
         return $count;
     }
 }

@@ -65,9 +65,9 @@
             {% set messages_defined = messages_defined|merge([message]) %}
         {% elseif message.state == constant('Symfony\\Component\\Translation\\DataCollectorTranslator::MESSAGE_EQUALS_FALLBACK') %}
             {% set messages_defined = messages_fallback|merge([message]) %}
-        {% elseif message.state == constant('MD\\TranslatorToolBundle\\Service\\TranslatorToolService::MESSAGE_NEW_WITHOUT_TRANSLATION') %}
+        {% elseif message.state == constant('AECF\\TranslatorToolBundle\\Service\\TranslatorToolService::MESSAGE_NEW_WITHOUT_TRANSLATION') %}
             {% set messages_new = messages_new|merge([message]) %}
-        {% elseif message.state == constant('MD\\TranslatorToolBundle\\Service\\TranslatorToolService::MESSAGE_NEW_FROM_FALLBACK') %}
+        {% elseif message.state == constant('AECF\\TranslatorToolBundle\\Service\\TranslatorToolService::MESSAGE_NEW_FROM_FALLBACK') %}
             {% set messages_new = messages_new|merge([message]) %}
         {% endif %}
     {% endfor %}
@@ -93,7 +93,7 @@
                 {% endif %}
             </div>
         </div>
-    
+
         <div class="tab">
             <h3 class="tab-title">Defined <span class="badge">{{ messages_defined|length }}</span></h3>
 

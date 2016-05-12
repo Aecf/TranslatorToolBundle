@@ -1,14 +1,14 @@
 parameters:
     translator_tool.auto_create_missing.enabled:
-    translator_tool.auto_create_missing.format: 
+    translator_tool.auto_create_missing.format:
 
 services:
     data_collector.translator_tool:
-        class: MD\TranslatorToolBundle\DataCollector\TranslatorToolDataCollector
+        class: AECF\TranslatorToolBundle\DataCollector\TranslatorToolDataCollector
         arguments: ['@translator.data_collector', '@translator_tool', '%translator_tool.auto_create_missing.enabled%']
         tags:
             - { name: data_collector, template: "TranslatorToolBundle:DataCollector:translator_tool.html.twig", id: "translator_tool" }
-            
+
     translator_tool:
-        class: MD\TranslatorToolBundle\Service\TranslatorToolService
+        class: AECF\TranslatorToolBundle\Service\TranslatorToolService
         arguments: ['@translation.loader', '@translation.writer', '%locale%', '%translator_tool.auto_create_missing.format%', '%kernel.root_dir%']

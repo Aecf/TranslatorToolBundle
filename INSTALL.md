@@ -4,8 +4,7 @@ Enable Translator :
 framework:
     translator: { fallbacks: [en] }
 
-
-Fichier routing_dev.yml::
+routing_dev.yml::
 
     translator_tool:
         resource: "@TranslatorToolBundle/Controller/"
@@ -13,17 +12,16 @@ Fichier routing_dev.yml::
         prefix:   /translator_tool/
 
 
-Fichier config_dev.yml::
-
+config_dev.yml::
 
     translator_tool:
         auto_create_missing:
             enabled: true
             format: yml
-        
-Fichier AppKernel.php::
+
+AppKernel.php::
 
     if (in_array($this->getEnvironment(), array('dev', 'test'))) {
         ...
-        $bundles[] = new MD\TranslatorToolBundle\TranslatorToolBundle();
+        $bundles[] = new AECF\TranslatorToolBundle\TranslatorToolBundle();
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace MD\TranslatorToolBundle\Controller;
+namespace AECF\TranslatorToolBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;

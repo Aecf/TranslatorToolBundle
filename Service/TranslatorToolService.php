@@ -1,6 +1,6 @@
 <?php
 
-namespace MD\TranslatorToolBundle\Service;
+namespace AECF\TranslatorToolBundle\Service;
 
 use Symfony\Component\Translation\Writer\TranslationWriter;
 use Symfony\Bundle\FrameworkBundle\Translation\TranslationLoader;
@@ -8,30 +8,26 @@ use Symfony\Component\Translation\MessageCatalogue;
 use Symfony\Component\HttpFoundation\Tests\StringableObject;
 use Symfony\Component\Translation\DataCollectorTranslator;
 
-/**
- * @author Mathieu DUMOUTIER <mathieu@dumoutier.fr>
- */
-
-class TranslatorToolService 
+class TranslatorToolService
 {
     const MESSAGE_NEW_WITHOUT_TRANSLATION = 4;
     const MESSAGE_NEW_FROM_FALLBACK = 5;
-    
+
     /**
      * @var TranslationWriter
      */
     private $translationWriter;
-    
+
     /**
      * @var TranslationLoader
      */
     private $translationLoader;
-    
+
     /**
      * @var string
      */
     private $locale;
-    
+
     /**
      * @var string
      */
@@ -41,9 +37,9 @@ class TranslatorToolService
      * @var string
      */
     private $rootDir;
-    
+
     /**
-     * 
+     *
      * @param TranslationLoader $translationLoader
      * @param TranslationWriter $translationWriter
      * @param string $locale
@@ -58,17 +54,17 @@ class TranslatorToolService
         $this->autoCreateMissingFormat = $autoCreateMissingFormat;
         $this->rootDir = $rootDir;
     }
-    
+
     /**
      * Add to MessageCatalogue messages array elements that do not exist (missing or equals_fallback)
-     * 
+     *
      * @param array $messages
      * @return array
      */
     public function createMissing($messages)
     {
         $currentCatalogue = $this->loadCurrentMessageCatalogue();
-    
+
         $nbAdded = 0;
         foreach($messages as $key => $message)
         {
@@ -81,22 +77,22 @@ class TranslatorToolService
                 }
 
                 $messages[$key]['state'] = (
-                    $message['state'] == DataCollectorTranslator::MESSAGE_MISSING ? 
+                    $message['state'] == DataCollectorTranslator::MESSAGE_MISSING ?
                     self::MESSAGE_NEW_WITHOUT_TRANSLATION : self::MESSAGE_NEW_FROM_FALLBACK
                     );
-                
+
                 $nbAdded++;
             }
         }
-    
+
         if($nbAdded > 0)
         {
             $this->writeCurrentMessageCatalogue($currentCatalogue, $this->autoCreateMissingFormat);
         }
-        
+
         return $messages;
     }
-    
+
     public function edit($catalogue, $id, $translation, $domain)
     {
         $catalogue->set($id, $translation, $domain);
@@ -117,7 +113,7 @@ class TranslatorToolService
 
         return $currentCatalogue;
     }
-    
+
     private function writeCurrentMessageCatalogue($catalogue, $format)
     {
         $transPath = $this->getTransPath($this->rootDir);
@@ -130,13 +126,13 @@ class TranslatorToolService
             )
         );
     }
-    
+
     private function getCatalogueMajorFormat($catalogue)
     {
         foreach($catalogue->getResources() as $res) {
             $filename = explode('.', $res);
             $ext = $filename[(int)count($filename)-1];
-            
+
             if(isset($extensions[$ext])) {
                 $extensions[$ext] = $extensions[$ext]++;
             }
@@ -145,13 +141,13 @@ class TranslatorToolService
                 $extensions[$ext] = 1;
             }
         }
-        
+
         asort($extensions);
         $keys = array_keys($extensions);
         return array_pop($keys);
     }
-        
-    
+
+
     private function getTransPath($rootDir)
     {
        return $rootDir.'/Resources/translations';

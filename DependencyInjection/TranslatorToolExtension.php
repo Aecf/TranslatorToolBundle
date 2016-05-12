@@ -1,6 +1,6 @@
 <?php
 
-namespace MD\TranslatorToolBundle\DependencyInjection;
+namespace AECF\TranslatorToolBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
@@ -24,7 +24,7 @@ class TranslatorToolExtension extends Extension
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
-        
+
         $container->setParameter('translator_tool.auto_create_missing.enabled', $config['auto_create_missing']['enabled']);
         $container->setParameter('translator_tool.auto_create_missing.format', $config['auto_create_missing']['format']);
     }

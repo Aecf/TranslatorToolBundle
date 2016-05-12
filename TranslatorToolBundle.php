@@ -1,6 +1,6 @@
 <?php
 
-namespace MD\TranslatorToolBundle;
+namespace AECF\TranslatorToolBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
