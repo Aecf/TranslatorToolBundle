@@ -14,17 +14,6 @@ use Symfony\Component\HttpFoundation\Request;
 class DefaultController extends Controller
 {
     /**
-     * @Route("/hello/{name}")
-     *
-     * @param string $name
-     * @return Response
-     */
-    public function indexAction($name)
-    {
-        return $this->render('TranslatorToolBundle:Default:index.html.twig', array('name' => $name));
-    }
-
-    /**
      * @Route("/edit")
      * @Method({"POST"})
      */
