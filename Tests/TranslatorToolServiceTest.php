@@ -10,31 +10,25 @@ use Symfony\Component\Translation\MessageCatalogue;
 
 class TranslatorToolServiceTest extends \PHPUnit_Framework_TestCase
 {
-    private static $service;
+    private $service;
+    private $catalogue;
 
-    private static $catalogue;
-
-    public function testCreateService()
+    public function setUp()
     {
         $loader = m::mock(TranslationLoader::class);
         $writer = m::mock(TranslationWriter::class);
-        self::$service = new TranslatorToolService($loader, $writer, 'en', true, '.');
+        $this->service = new TranslatorToolService($loader, $writer, 'en', true, '.');
 
         $writer->shouldReceive('writeTranslations');
         $loader->shouldReceive('loadMessages');
-        self::$catalogue = self::$service->loadCurrentMessageCatalogue();
-    }
-
-    public function testLoadCurrentMessageCatalogue()
-    {
-        $this->assertTrue(self::$catalogue instanceof MessageCatalogue);
+        $this->catalogue = $this->service->loadCurrentMessageCatalogue();
     }
 
     public function testEdit()
     {
-        self::$service->edit(self::$catalogue, 'security.login', 'login', 'messages');
-        $this->assertTrue(self::$catalogue->has('security.login', 'messages'));
-        $this->assertEquals(self::$catalogue->get('security.login', 'messages'), 'login');
+        $this->service->edit($this->catalogue, 'security.login', 'login', 'messages');
+        $this->assertTrue($this->catalogue->has('security.login', 'messages'));
+        $this->assertEquals($this->catalogue->get('security.login', 'messages'), 'login');
     }
 
     public function testCreateMissing()
@@ -48,7 +42,7 @@ class TranslatorToolServiceTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $result = self::$service->createMissing($messages);
+        $result = $this->service->createMissing($messages);
 
         $this->assertEquals($result[0]['state'], 4);
 
@@ -61,7 +55,7 @@ class TranslatorToolServiceTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $result = self::$service->createMissing($messages);
+        $result = $this->service->createMissing($messages);
 
         $this->assertEquals($result[0]['state'], 5);
     }

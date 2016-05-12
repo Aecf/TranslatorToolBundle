@@ -90,8 +90,6 @@ class TranslatorToolService
             $this->writeCurrentMessageCatalogue($currentCatalogue, $this->autoCreateMissingFormat);
         }
 
-//        var_dump($messages);die;
-
         return $messages;
     }
 
