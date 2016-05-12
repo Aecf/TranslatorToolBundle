@@ -1,0 +1,29 @@
+{
+    "name": "aecf/translator-tool-bundle",
+    "description": "A graphical user interface to manage project translations",
+    "autoload": {
+        "psr-4": {
+            "AECF\\TranslatorToolBundle\\": ""
+        }
+    },
+    "require": {
+        "symfony/http-kernel": "^3.0",
+        "symfony/translation": "^3.0",
+        "symfony/framework-bundle": "^3.0",
+        "symfony/http-foundation": "^3.0",
+        "symfony/config": "^3.0",
+        "sensio/framework-extra-bundle": "^3.0",
+        "symfony/console": "^3.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^5.3",
+        "mockery/mockery": "^0.9.4"
+    },
+    "authors": [
+        {
+            "name": "Fabien Duhamel",
+            "email": "fabienduhamel@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable"
+}
