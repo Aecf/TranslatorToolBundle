@@ -2,9 +2,10 @@
 
 namespace AECF\TranslatorToolBundle\Service;
 
-use Symfony\Component\Translation\Writer\TranslationWriter;
-use Symfony\Bundle\FrameworkBundle\Translation\TranslationLoader;
+use AECF\TranslatorToolBundle\Editor\CatalogueEditor;
+use AECF\TranslatorToolBundle\Loader\MessageCatalogueLoader;
 use Symfony\Component\Translation\MessageCatalogue;
+use Symfony\Component\Translation\Writer\TranslationWriter;
 use Symfony\Component\HttpFoundation\Tests\StringableObject;
 use Symfony\Component\Translation\DataCollectorTranslator;
 
@@ -14,14 +15,14 @@ class TranslatorToolService
     const MESSAGE_NEW_FROM_FALLBACK = 5;
 
     /**
-     * @var TranslationWriter
+     * @var CatalogueEditor
      */
-    private $translationWriter;
+    private $editor;
 
     /**
-     * @var TranslationLoader
+     * @var MessageCatalogueLoader
      */
-    private $translationLoader;
+    private $catalogueLoader;
 
     /**
      * @var string
@@ -39,17 +40,22 @@ class TranslatorToolService
     private $rootDir;
 
     /**
+     * @var MessageCatalogue
+     */
+    private $catalogue;
+
+    /**
      *
-     * @param TranslationLoader $translationLoader
-     * @param TranslationWriter $translationWriter
+     * @param MessageCatalogueLoader $catalogueLoader
+     * @param CatalogueEditor $editor
      * @param string $locale
      * @param string $autoCreateMissingFormat
      * @param string $rootDir
      */
-    public function __construct(TranslationLoader $translationLoader, TranslationWriter $translationWriter, $locale, $autoCreateMissingFormat, $rootDir)
+    public function __construct(MessageCatalogueLoader $catalogueLoader, CatalogueEditor $editor, $locale, $autoCreateMissingFormat, $rootDir)
     {
-        $this->translationWriter = $translationWriter;
-        $this->translationLoader = $translationLoader;
+        $this->catalogueLoader = $catalogueLoader;
+        $this->editor = $editor;
         $this->locale = $locale;
         $this->autoCreateMissingFormat = $autoCreateMissingFormat;
         $this->rootDir = $rootDir;
@@ -63,7 +69,7 @@ class TranslatorToolService
      */
     public function createMissing($messages)
     {
-        $currentCatalogue = $this->loadCurrentMessageCatalogue();
+        $this->catalogue = $this->catalogueLoader->loadMessageCatalogue($this->locale, $this->rootDir);
 
         $nbAdded = 0;
         foreach($messages as $key => $message)
@@ -71,9 +77,9 @@ class TranslatorToolService
             if($message['state'] == DataCollectorTranslator::MESSAGE_MISSING
                 || $message['state'] == DataCollectorTranslator::MESSAGE_EQUALS_FALLBACK)
             {
-                if(!$currentCatalogue->has($message['id'], $message['domain']))
+                if(!$this->catalogue->has($message['id'], $message['domain']))
                 {
-                    $currentCatalogue->set($message['id'], $message['translation'], $message['domain']);
+                    $this->catalogue->set($message['id'], $message['translation'], $message['domain']);
                 }
 
                 $messages[$key]['state'] = (
@@ -87,70 +93,16 @@ class TranslatorToolService
 
         if($nbAdded > 0)
         {
-            $this->writeCurrentMessageCatalogue($currentCatalogue, $this->autoCreateMissingFormat);
+            $this->editor->saveCatalogue($this->catalogue, $this->autoCreateMissingFormat);
         }
 
         return $messages;
     }
 
-    public function edit($catalogue, $id, $translation, $domain)
+    public function edit($id, $translation, $domain)
     {
-        $catalogue->set($id, $translation, $domain);
-        $this->writeCurrentMessageCatalogue($catalogue, $this->getCatalogueMajorFormat($catalogue));
+        $this->catalogue = $this->catalogueLoader->loadMessageCatalogue($this->locale, $this->rootDir);
+        $this->editor->edit($this->catalogue, $id, $translation, $domain);
     }
 
-    /**
-     * @param string $transPath
-     * @param string $locale
-     * @return MessageCatalogue
-     */
-    public function loadCurrentMessageCatalogue()
-    {
-        $transPath = $this->getTransPath($this->rootDir);
-
-        $currentCatalogue = new MessageCatalogue($this->locale);
-        $this->translationLoader->loadMessages($transPath, $currentCatalogue);
-
-        return $currentCatalogue;
-    }
-
-    private function writeCurrentMessageCatalogue($catalogue, $format)
-    {
-        $transPath = $this->getTransPath($this->rootDir);
-
-        $this->translationWriter->writeTranslations(
-            $catalogue, $format,
-            array(
-                'path' => $transPath,
-                'as_tree' => true
-            )
-        );
-    }
-
-    private function getCatalogueMajorFormat($catalogue)
-    {
-        $extensions = array();
-        foreach($catalogue->getResources() as $res) {
-            $filename = explode('.', $res);
-            $ext = $filename[(int)count($filename)-1];
-
-            if(isset($extensions[$ext])) {
-                $extensions[$ext] = $extensions[$ext]++;
-            }
-            else
-            {
-                $extensions[$ext] = 1;
-            }
-        }
-
-        asort($extensions);
-        $keys = array_keys($extensions);
-        return array_pop($keys);
-    }
-
-
-    private function getTransPath($rootDir)
-    {
-       return $rootDir.'/Resources/translations';
-    }
-}
+ }

@@ -2,6 +2,8 @@
 
 namespace AECF\TranslatorToolBundle\Test;
 
+use AECF\TranslatorToolBundle\Editor\CatalogueEditor;
+use AECF\TranslatorToolBundle\Loader\MessageCatalogueLoader;
 use AECF\TranslatorToolBundle\Service\TranslatorToolService;
 use Mockery as m;
 use Symfony\Bundle\FrameworkBundle\Translation\TranslationLoader;
@@ -11,24 +13,35 @@ use Symfony\Component\Translation\MessageCatalogue;
 class TranslatorToolServiceTest extends \PHPUnit_Framework_TestCase
 {
     private $service;
-    private $catalogue;
+
+    /**
+     * @var CatalogueEditor
+     */
+    private $editor;
+
+    /**
+     * @var MessageCatalogue
+     */
+    private $messageCatalogue;
 
     public function setUp()
     {
-        $loader = m::mock(TranslationLoader::class);
-        $writer = m::mock(TranslationWriter::class);
-        $this->service = new TranslatorToolService($loader, $writer, 'en', true, '.');
+        $this->messageCatalogue = m::mock(MessageCatalogue::class);
+        $this->messageCatalogue->shouldReceive('has')->andReturn(false);
+        $this->messageCatalogue->shouldReceive('set');
 
-        $writer->shouldReceive('writeTranslations');
-        $loader->shouldReceive('loadMessages');
-        $this->catalogue = $this->service->loadCurrentMessageCatalogue();
+        $loader = m::mock(MessageCatalogueLoader::class);
+        $loader->shouldReceive('loadMessageCatalogue')->andReturn($this->messageCatalogue);
+
+        $this->editor = m::mock(CatalogueEditor::class);
+        $this->editor->shouldReceive('saveCatalogue');
+        $this->service = new TranslatorToolService($loader, $this->editor, 'en', true, '.');
     }
 
     public function testEdit()
     {
-        $this->service->edit($this->catalogue, 'security.login', 'login', 'messages');
-        $this->assertTrue($this->catalogue->has('security.login', 'messages'));
-        $this->assertEquals($this->catalogue->get('security.login', 'messages'), 'login');
+        $this->editor->shouldReceive('edit')->once();//->with($this->messageCatalogue, 'security_login', 'login', 'messages');
+        $this->service->edit('security.login', 'login', 'messages');
     }
 
     public function testCreateMissing()
