@@ -1,14 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit
-        colors="true"
-        convertWarningsToExceptions="false">
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.8/phpunit.xsd"
+         backupGlobals="false"
+         colors="true"
+         convertWarningsToExceptions="false">
     <php>
         <const name="PHPUNIT_RUNNING" value="true" />
     </php>
 
     <testsuites>
         <testsuite name="TranslatorToolBundle test suite">
-            <directory>Tests</directory>
+            <directory>../src/*/*Bundle/Tests</directory>
+            <directory>../src/*/Bundle/*Bundle/Tests</directory>
+            <directory>../src/*Bundle/Tests</directory>
         </testsuite>
     </testsuites>
+
+    <filter>
+        <whitelist>
+            <directory>../src</directory>
+            <exclude>
+                <directory>../src/*Bundle/Resources</directory>
+                <directory>../src/*Bundle/Tests</directory>
+                <directory>../src/*/*Bundle/Resources</directory>
+                <directory>../src/*/*Bundle/Tests</directory>
+                <directory>../src/*/*Bundle/Tests/Controller</directory>
+                <directory>../src/*/Bundle/*Bundle/Resources</directory>
+                <directory>../src/*/Bundle/*Bundle/Tests</directory>
+            </exclude>
+        </whitelist>
+    </filter>
 </phpunit>
