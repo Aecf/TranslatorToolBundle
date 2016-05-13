@@ -4,17 +4,13 @@ parameters:
 
 services:
     translator_tool.data_collector:
-        class: AECF\TranslatorToolBundle\DataCollector\TranslatorToolDataCollector
+        class: AECF\TranslatorToolBundle\Collector\TranslatorToolDataCollector
         arguments:
             - @translator.data_collector
             - @translator_tool
             - %translator_tool.auto_create_missing.enabled%
         tags:
-            - {
-                name: data_collector,
-                template: "TranslatorToolBundle:DataCollector:translator_tool.html.twig",
-                id: "translator_tool"
-              }
+            - { name: data_collector, template: "TranslatorToolBundle:DataCollector:translator_tool.html.twig", id: "translator_tool" }
 
     translator_tool:
         class: AECF\TranslatorToolBundle\Service\TranslatorToolService
