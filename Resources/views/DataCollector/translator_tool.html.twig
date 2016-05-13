@@ -115,7 +115,7 @@
 
     <script type="text/javascript">
         // Get translation span
-        var translations = document.querySelectorAll("[class=translation]");
+        var translations = document.querySelectorAll("[class=aecf-translation]");
 
         // For each translation add event listener on click for display input and send edit translation
         for (var i = 0; i < translations.length; i++) {
@@ -202,7 +202,7 @@
                     {% endif %}
                 </td>
                 <td>
-                    <span class="translation" style="cursor: pointer">{{ message.translation }}</span>
+                    <span class="aecf-translation" style="cursor: pointer">{{ message.translation }}</span>
                     <input type="text" value="{{ message.translation }}" name="{{ message.id }}" id="{{ message.id }}" data-domain="{{ message.domain }}" style="display:none" />
                 </td>
             </tr>
