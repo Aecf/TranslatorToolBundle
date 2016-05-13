@@ -35,6 +35,11 @@ class TranslatorToolService
     private $autoCreateMissingFormat;
 
     /**
+    * @var string[]
+    */
+    private $formats;
+
+    /**
      * @var string
      */
     private $transDir;
@@ -50,14 +55,16 @@ class TranslatorToolService
      * @param CatalogueEditor $editor
      * @param array $enabledLocales
      * @param string $autoCreateMissingFormat
+     * @param array $formats
      * @param string $rootDir
      */
-    public function __construct(MessageCatalogueLoader $catalogueLoader, CatalogueEditor $editor, $enabledLocales, $autoCreateMissingFormat, $rootDir)
+    public function __construct(MessageCatalogueLoader $catalogueLoader, CatalogueEditor $editor, $enabledLocales, $autoCreateMissingFormat, array $formats, $rootDir)
     {
         $this->catalogueLoader = $catalogueLoader;
         $this->editor = $editor;
         $this->enabledLocales = $enabledLocales;
         $this->autoCreateMissingFormat = $autoCreateMissingFormat;
+        $this->formats = $formats;
         $this->transDir = $rootDir.'/Resources/translations';
     }
 
@@ -95,7 +102,7 @@ class TranslatorToolService
         }
 
         foreach ($catalogsToSave as $locale => $bool) {
-            $this->editor->saveCatalogue($catalogs[$locale], $this->autoCreateMissingFormat, $this->transDir);
+            $this->editor->saveCatalogue($catalogs[$locale], $this->transDir, $this->formats);
         }
 
         return $messages;
@@ -104,7 +111,6 @@ class TranslatorToolService
     public function edit($id, $translation, $domain, $locale)
     {
         $this->catalogue = $this->catalogueLoader->loadMessageCatalogue($locale, $this->transDir);
-        $this->editor->edit($this->catalogue, $id, $translation, $domain, $this->transDir);
+        $this->editor->edit($this->catalogue, $id, $translation, $domain, $this->transDir, $this->formats);
     }
-
  }

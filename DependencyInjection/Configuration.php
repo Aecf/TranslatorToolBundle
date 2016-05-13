@@ -22,20 +22,20 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
+                ->arrayNode('enabled_locales')
+                    ->prototype('scalar')->end()
+                ->end()
                 ->arrayNode('auto_create_missing')
                     ->children()
                         ->booleanNode('enabled')
                             ->defaultTrue()
                         ->end()
-                        ->enumNode('format')
-                            ->values(array('yml', 'xlf', 'php'))
-                            ->defaultValue('yml')
+                        ->arrayNode('formats')
+                            ->prototype('scalar')
+                            ->defaultValue(array('yml'))
                         ->end()
                     ->end()
                 ->end() // auto_create_missing
-                ->arrayNode('enabled_locales')
-                    ->prototype('scalar')->end()
-                ->end()
             ->end()
         ;
 
