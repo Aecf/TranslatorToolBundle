@@ -18,8 +18,12 @@ services:
 
     translator_tool:
         class: AECF\TranslatorToolBundle\Service\TranslatorToolService
-        arguments: ['@catalogue_loader', '@translation.writer', '%locale%', '%translator_tool.auto_create_missing.format%', '%kernel.root_dir%']
+        arguments: ['@catalogue_loader', '@catalogue_editor', '%locale%', '%translator_tool.auto_create_missing.format%', '%kernel.root_dir%']
 
     catalogue_loader:
         class: AECF\TranslatorToolBundle\Loader\MessageCatalogueLoader
         arguments: ['@translation.loader']
+
+    catalogue_editor:
+        class: AECF\TranslatorToolBundle\Editor\CatalogueEditor
+        arguments: ['@translation.writer']
