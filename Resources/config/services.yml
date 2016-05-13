@@ -23,3 +23,10 @@ services:
     catalogue_editor:
         class: AECF\TranslatorToolBundle\Editor\CatalogueEditor
         arguments: ['@translation.writer']
+
+    translation.twig_extension:
+        class: AECF\TranslatorToolBundle\Twig\TranslatorToolExtension
+        arguments: ['@translator']
+        public: false
+        tags:
+            - { name: twig.extension }
