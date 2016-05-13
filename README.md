@@ -3,7 +3,7 @@ AECF/TranslatorToolBundle
 
 The TranslatorToolBundle adds a symfony profiler tool.
 
-Include:
+Features:
 
 - Automatically adds your keys followed by "trans" twig filter in the translation file (create if it does not exist).
 - Adds an interface to add or edit translations, just click on the contents of your word in the "Message Preview" column, type your word and press enter.
