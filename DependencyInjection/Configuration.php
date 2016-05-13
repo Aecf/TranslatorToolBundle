@@ -26,7 +26,7 @@ class Configuration implements ConfigurationInterface
                     ->addDefaultsIfNotSet(array('%locale%'))
                 ->end() // enables_locales
                 ->booleanNode('live_edit')
-                    ->addDefaultsIfNotSet(false)
+                    ->defaultFalse()
                 ->end() // live_edit
                 ->arrayNode('auto_create_missing')
                     ->children()
