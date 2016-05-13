@@ -24,7 +24,10 @@ class Configuration implements ConfigurationInterface
             ->children()
                 ->arrayNode('enabled_locales')
                     ->addDefaultsIfNotSet(array('%locale%'))
-                ->end()
+                ->end() // enables_locales
+                ->booleanNode('live_edit')
+                    ->addDefaultsIfNotSet(false)
+                ->end() // live_edit
                 ->arrayNode('auto_create_missing')
                     ->children()
                         ->booleanNode('enabled')

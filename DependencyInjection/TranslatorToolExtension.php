@@ -27,5 +27,6 @@ class TranslatorToolExtension extends Extension
 
         $container->setParameter('translator_tool.auto_create_missing.enabled', $config['auto_create_missing']['enabled']);
         $container->setParameter('translator_tool.auto_create_missing.format', $config['auto_create_missing']['format']);
+        $container->setParameter('translator_tool.live_edit', $config['live_edit']);
     }
 }
