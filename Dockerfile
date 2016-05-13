@@ -10,6 +10,4 @@ RUN mv composer.phar /usr/local/bin/composer
 RUN apt-get update && apt-get install -y --no-install-recommends git \
     && rm -rf /var/lib/apt/lists/*
 
-RUN usermod -u 1000 www-data
-
 CMD [ "/bin/bash" ]
