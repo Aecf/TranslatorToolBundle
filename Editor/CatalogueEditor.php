@@ -17,20 +17,23 @@ class CatalogueEditor
         $this->writer = $writer;
     }
 
-    public function edit(MessageCatalogue $catalogue, $id, $translation, $domain)
+    public function edit(MessageCatalogue $catalogue, $id, $translation, $domain, $path, $formats)
     {
         $catalogue->set($id, $translation, $domain);
-        $this->saveCatalogue($catalogue, $this->getCatalogueMajorFormat($catalogue));
+        $this->saveCatalogue($catalogue, $this->getCatalogueMajorFormat($catalogue), $path, $formats);
     }
 
-    public function saveCatalogue(MessageCatalogue $catalogue, $format)
+    public function saveCatalogue(MessageCatalogue $catalogue, $path, $formats)
     {
-        $this->writer->writeTranslations(
-            $catalogue, $format,
-            array(
-                'as_tree' => true
-            )
-        );
+        foreach ($formats as $format) {
+            $this->writer->writeTranslations(
+                $catalogue, $format,
+                array(
+                    'path'    => $path . '/Resources/translations',
+                    'as_tree' => true
+                )
+            );
+        }
     }
 
     private function getCatalogueMajorFormat(MessageCatalogue $catalogue)

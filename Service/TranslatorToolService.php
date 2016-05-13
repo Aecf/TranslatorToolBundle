@@ -5,8 +5,6 @@ namespace AECF\TranslatorToolBundle\Service;
 use AECF\TranslatorToolBundle\Editor\CatalogueEditor;
 use AECF\TranslatorToolBundle\Loader\MessageCatalogueLoader;
 use Symfony\Component\Translation\MessageCatalogue;
-use Symfony\Component\Translation\Writer\TranslationWriter;
-use Symfony\Component\HttpFoundation\Tests\StringableObject;
 use Symfony\Component\Translation\DataCollectorTranslator;
 
 class TranslatorToolService
@@ -32,11 +30,6 @@ class TranslatorToolService
     /**
      * @var string
      */
-    private $autoCreateMissingFormat;
-
-    /**
-     * @var string
-     */
     private $rootDir;
 
     /**
@@ -45,19 +38,23 @@ class TranslatorToolService
     private $catalogue;
 
     /**
+     * @var string[]
+     */
+    private $formats;
+
+    /**
      *
      * @param MessageCatalogueLoader $catalogueLoader
      * @param CatalogueEditor $editor
      * @param array $enabledLocales
-     * @param string $autoCreateMissingFormat
      * @param string $rootDir
      */
-    public function __construct(MessageCatalogueLoader $catalogueLoader, CatalogueEditor $editor, $enabledLocales, $autoCreateMissingFormat, $rootDir)
+    public function __construct(MessageCatalogueLoader $catalogueLoader, CatalogueEditor $editor, array $enabledLocales, array $formats, $rootDir)
     {
         $this->catalogueLoader = $catalogueLoader;
         $this->editor = $editor;
         $this->enabledLocales = $enabledLocales;
-        $this->autoCreateMissingFormat = $autoCreateMissingFormat;
+        $this->formats = $formats;
         $this->rootDir = $rootDir;
     }
 
@@ -93,7 +90,7 @@ class TranslatorToolService
 
         if($nbAdded > 0)
         {
-            $this->editor->saveCatalogue($this->catalogue, $this->autoCreateMissingFormat);
+            $this->editor->saveCatalogue($this->catalogue, $this->rootDir, $this->formats);
         }
 
         return $messages;
@@ -102,7 +99,7 @@ class TranslatorToolService
     public function edit($id, $translation, $domain)
     {
         $this->catalogue = $this->catalogueLoader->loadMessageCatalogue($this->locale, $this->rootDir);
-        $this->editor->edit($this->catalogue, $id, $translation, $domain);
+        $this->editor->edit($this->catalogue, $id, $translation, $domain, $this->rootDir, $this->formats);
     }
 
  }

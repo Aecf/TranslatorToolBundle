@@ -54,7 +54,8 @@ translator_tool:
     enabled_locales: ['fr', 'en'] # optional, if not specified default value is parameter "locale"
     auto_create_missing:
         enabled: true
-        format: yml # yml, xml or php
+        formats:
+            - yml
 ```
 
 Result
