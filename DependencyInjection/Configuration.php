@@ -23,7 +23,7 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->booleanNode('live_edit')
-                    ->addDefaultsIfNotSet(false)
+                    ->defaultFalse()
                 ->end() // live_edit
                 ->arrayNode('auto_create_missing')
                     ->children()
