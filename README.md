@@ -40,17 +40,22 @@ if (in_array($this->getEnvironment(), array('dev', 'test'))) {
 
 routing_dev.yml:
 
-    translator_tool:
-        resource: "@TranslatorToolBundle/Controller/"
-        type:     annotation
-        prefix:   /translator_tool/
+```yml
+translator_tool:
+    resource: "@TranslatorToolBundle/Controller/"
+    type:     annotation
+    prefix:   /translator_tool/
+```
 
 config_dev.yml:
 
-    translator_tool:
-        auto_create_missing:
-            enabled: true
-            format: yml
+```yml
+translator_tool:
+    enabled_locales: ['fr', 'en'] # optional, if not specified default value is parameter "locale"
+    auto_create_missing:
+        enabled: true
+        format: yml # yml, xml or php
+```
 
 Result
 ------

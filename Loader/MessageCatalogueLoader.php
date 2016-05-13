@@ -1,6 +1,7 @@
 <?php
 
 namespace AECF\TranslatorToolBundle\Loader;
+
 use Symfony\Bundle\FrameworkBundle\Translation\TranslationLoader;
 use Symfony\Component\Translation\MessageCatalogue;
 

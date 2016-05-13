@@ -46,6 +46,30 @@ class TranslatorToolDataCollector extends TranslationDataCollector
         }
     }
 
+    /**
+     * @return int
+     */
+    public function getCountNew()
+    {
+        return $this->getCountNewWithoutTranslation() + $this->getCountNewFromFallback();
+    }
+
+    /**
+     * @return int
+     */
+    public function getCountNewWithoutTranslation()
+    {
+        return isset($this->data[TranslatorToolService::MESSAGE_NEW_WITHOUT_TRANSLATION]) ? $this->data[TranslatorToolService::MESSAGE_NEW_WITHOUT_TRANSLATION] : 0;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCountNewFromFallback()
+    {
+        return isset($this->data[TranslatorToolService::MESSAGE_NEW_FROM_FALLBACK]) ? $this->data[TranslatorToolService::MESSAGE_NEW_FROM_FALLBACK] : 0;
+    }
+
     public function getName()
     {
         return 'translator_tool';

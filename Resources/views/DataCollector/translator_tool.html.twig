@@ -6,7 +6,7 @@
     {% if collector.messages|length %}
         {% set icon %}
             {{ include('@WebProfiler/Icon/translation.svg') }}
-            {% set status_color = collector.countNewWithoutTranslation ? 'red' : collector.countNewFromFallback ? 'yellow' %}
+            {% set status_color = collector.countNewWithoutTranslation ? 'red' : collector.countNewFromFallback  ? 'yellow' %}
             {% set error_count = collector.countNewWithoutTranslation + collector.countNewFromFallback %}
             <span class="sf-toolbar-value">{{ error_count ?: error_count }}</span>
         {% endset %}

@@ -48,15 +48,15 @@ class TranslatorToolService
      *
      * @param MessageCatalogueLoader $catalogueLoader
      * @param CatalogueEditor $editor
-     * @param string $locale
+     * @param array $enabledLocales
      * @param string $autoCreateMissingFormat
      * @param string $rootDir
      */
-    public function __construct(MessageCatalogueLoader $catalogueLoader, CatalogueEditor $editor, $locale, $autoCreateMissingFormat, $rootDir)
+    public function __construct(MessageCatalogueLoader $catalogueLoader, CatalogueEditor $editor, $enabledLocales, $autoCreateMissingFormat, $rootDir)
     {
         $this->catalogueLoader = $catalogueLoader;
         $this->editor = $editor;
-        $this->locale = $locale;
+        $this->enabledLocales = $enabledLocales;
         $this->autoCreateMissingFormat = $autoCreateMissingFormat;
         $this->rootDir = $rootDir;
     }

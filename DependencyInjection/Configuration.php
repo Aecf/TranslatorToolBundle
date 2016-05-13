@@ -22,6 +22,9 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
+                ->arrayNode('enabled_locales')
+                    ->addDefaultsIfNotSet(array('%locale%'))
+                ->end()
                 ->arrayNode('auto_create_missing')
                     ->children()
                         ->booleanNode('enabled')
