@@ -55,7 +55,7 @@ class TranslatorToolServiceTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $result = $this->service->createMissing($messages);
+        $result = $this->service->createMissingTranslations($messages);
 
         $this->assertEquals($result[0]['state'], 4);
 
@@ -68,7 +68,7 @@ class TranslatorToolServiceTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $result = $this->service->createMissing($messages);
+        $result = $this->service->createMissingTranslations($messages);
 
         $this->assertEquals($result[0]['state'], 5);
     }
