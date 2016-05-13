@@ -1,6 +1,6 @@
 <?php
 
-namespace AECF\TranslatorToolBundle\DataCollector;
+namespace AECF\TranslatorToolBundle\Collector;
 
 use Symfony\Component\Translation\DataCollector\TranslationDataCollector;
 use Symfony\Component\Translation\DataCollectorTranslator;
@@ -16,18 +16,18 @@ class TranslatorToolDataCollector extends TranslationDataCollector
     /**
      * @var boolean
      */
-    private $autoCreateMissingEnabled;
+    private $autoCreateMissingTranslations;
 
     /**
      * @param DataCollectorTranslator $translator
-     * @param TranslatorToolService $translatorTool
-     * @param boolean $autoCreateMissingEnabled
+     * @param TranslatorToolService   $translatorTool
+     * @param boolean                 $autoCreateMissingTranslations
      */
-    public function __construct(DataCollectorTranslator $translator, TranslatorToolService $translatorTool, $autoCreateMissingEnabled)
+    public function __construct(DataCollectorTranslator $translator, TranslatorToolService $translatorTool, $autoCreateMissingTranslations)
     {
         parent::__construct($translator);
         $this->translatorTool = $translatorTool;
-        $this->autoCreateMissingEnabled = $autoCreateMissingEnabled;
+        $this->autoCreateMissingTranslations = $autoCreateMissingTranslations;
     }
 
     /**
@@ -37,29 +37,13 @@ class TranslatorToolDataCollector extends TranslationDataCollector
     {
         parent::lateCollect();
 
-        // Automatic creation of missing translation (if enabled)
-        if(true === $this->autoCreateMissingEnabled)
+        // Automatic creation of missing translation
+        if(true === $this->autoCreateMissingTranslations)
         {
-            $messages = $this->translatorTool->createMissing($this->data['messages']);
+            $messages = $this->translatorTool->createMissingTranslations($this->data['messages']);
             $this->data = $this->computeCount($messages);
             $this->data['messages'] = $messages;
         }
-    }
-
-    /**
-     * @return int
-     */
-    public function getCountNewWithoutTranslation()
-    {
-        return isset($this->data[TranslatorToolService::MESSAGE_NEW_WITHOUT_TRANSLATION]) ? $this->data[TranslatorToolService::MESSAGE_NEW_WITHOUT_TRANSLATION] : 0;
-    }
-
-    /**
-     * @return int
-     */
-    public function getCountNewFromFallback()
-    {
-        return isset($this->data[TranslatorToolService::MESSAGE_NEW_FROM_FALLBACK]) ? $this->data[TranslatorToolService::MESSAGE_NEW_FROM_FALLBACK] : 0;
     }
 
     public function getName()
@@ -67,9 +51,14 @@ class TranslatorToolDataCollector extends TranslationDataCollector
         return 'translator_tool';
     }
 
+    /**
+     * @param $messages
+     *
+     * @return array of fresh $data property.
+     */
     private function computeCount($messages)
     {
-        $count = array(
+        $data = array(
             DataCollectorTranslator::MESSAGE_DEFINED => 0,
             DataCollectorTranslator::MESSAGE_MISSING => 0,
             DataCollectorTranslator::MESSAGE_EQUALS_FALLBACK => 0,
@@ -78,9 +67,9 @@ class TranslatorToolDataCollector extends TranslationDataCollector
         );
 
         foreach ($messages as $message) {
-            ++$count[$message['state']];
+            ++$data[$message['state']];
         }
 
-        return $count;
+        return $data;
     }
 }
