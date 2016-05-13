@@ -6,6 +6,9 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\BrowserKit\Client;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * @group functionnalTest
+ */
 class DefaultControllerTest extends WebTestCase
 {
     /**
