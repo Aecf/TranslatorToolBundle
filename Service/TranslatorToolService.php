@@ -67,7 +67,7 @@ class TranslatorToolService
      * @param array $messages
      * @return array
      */
-    public function createMissing($messages)
+    public function createMissingTranslations($messages)
     {
         $this->catalogue = $this->catalogueLoader->loadMessageCatalogue($this->locale, $this->rootDir);
 
