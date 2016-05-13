@@ -26,6 +26,7 @@ class TranslatorToolExtension extends Extension
         $loader->load('services.yml');
 
         $container->setParameter('translator_tool.auto_create_missing.enabled', $config['auto_create_missing']['enabled']);
-        $container->setParameter('translator_tool.auto_create_missing.format', $config['auto_create_missing']['format']);
+        $container->setParameter('translator_tool.enabled_locales', $config['enabled_locales']);
+        $container->setParameter('translator_tool.formats', $config['auto_create_missing']['formats']);
     }
 }

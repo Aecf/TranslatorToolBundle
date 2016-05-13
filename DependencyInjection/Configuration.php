@@ -30,9 +30,9 @@ class Configuration implements ConfigurationInterface
                         ->booleanNode('enabled')
                             ->defaultTrue()
                         ->end()
-                        ->enumNode('format')
-                            ->values(array('yml', 'xlf', 'php'))
-                            ->defaultValue('yml')
+                        ->arrayNode('formats')
+                            ->prototype('scalar')
+                            ->defaultValue(array('yml'))
                         ->end()
                     ->end()
                 ->end() // auto_create_missing
