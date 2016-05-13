@@ -37,7 +37,7 @@ class TranslatorToolService
     /**
      * @var string
      */
-    private $rootDir;
+    private $transDir;
 
     /**
      * @var MessageCatalogue
@@ -58,7 +58,7 @@ class TranslatorToolService
         $this->editor = $editor;
         $this->enabledLocales = $enabledLocales;
         $this->autoCreateMissingFormat = $autoCreateMissingFormat;
-        $this->rootDir = $rootDir;
+        $this->transDir = $rootDir.'/Resources/translations';
     }
 
     /**
@@ -69,7 +69,7 @@ class TranslatorToolService
      */
     public function createMissingTranslations($messages)
     {
-        $this->catalogue = $this->catalogueLoader->loadMessageCatalogue($this->locale, $this->rootDir);
+        $this->catalogue = $this->catalogueLoader->loadMessageCatalogue($this->locale, $this->transDir);
 
         $nbAdded = 0;
         foreach($messages as $key => $message)
@@ -93,7 +93,7 @@ class TranslatorToolService
 
         if($nbAdded > 0)
         {
-            $this->editor->saveCatalogue($this->catalogue, $this->autoCreateMissingFormat);
+            $this->editor->saveCatalogue($this->catalogue, $this->autoCreateMissingFormat, $this->transDir);
         }
 
         return $messages;
@@ -101,8 +101,8 @@ class TranslatorToolService
 
     public function edit($id, $translation, $domain)
     {
-        $this->catalogue = $this->catalogueLoader->loadMessageCatalogue($this->locale, $this->rootDir);
-        $this->editor->edit($this->catalogue, $id, $translation, $domain);
+        $this->catalogue = $this->catalogueLoader->loadMessageCatalogue($this->locale, $this->transDir);
+        $this->editor->edit($this->catalogue, $id, $translation, $domain, $this->transDir);
     }
 
  }
