@@ -186,11 +186,11 @@
                 <td>
                     {{ message.id }}
 
-                    {% if message.transChoiceNumber is not null %}
+                    {% if message.transChoiceNumber is defined and message.transChoiceNumber is not null %}
                         <small class="newline">(pluralization is used)</small>
                     {% endif %}
 
-                    {% if message.parameters|length > 0 %}
+                    {% if message.parameters is defined and message.parameters|length > 0 %}
                         <a class="newline text-small sf-toggle" data-toggle-selector="#parameters-{{ loop.index }}" data-toggle-alt-content="Hide parameters">Show parameters</a>
 
                         <div id="parameters-{{ loop.index }}" class="hidden">
