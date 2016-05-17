@@ -33,7 +33,7 @@ services:
 
     translation.twig_extension:
         class: AECF\TranslatorToolBundle\Twig\TranslatorToolExtension
-        arguments: ['@translator']
+        arguments: ['@translator', '%translator_tool.live_edit%']
         public: false
         tags:
             - { name: twig.extension }

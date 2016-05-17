@@ -2,6 +2,7 @@
     var translations = document.querySelectorAll("[class=aecf-translation]");
     for (var i = 0; i < translations.length; i++) {
         translations[i].addEventListener("click", function(event) {
+            event.preventDefault();
             event.srcElement.style.display = 'none';
             event.srcElement.nextElementSibling.style.display = 'block';
             event.srcElement.nextElementSibling.addEventListener("focusout", function(event) {

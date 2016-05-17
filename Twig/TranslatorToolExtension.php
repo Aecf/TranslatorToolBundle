@@ -3,9 +3,17 @@
 namespace AECF\TranslatorToolBundle\Twig;
 
 use Symfony\Bridge\Twig\Extension\TranslationExtension;
+use Symfony\Component\Translation\TranslatorInterface;
 
 class TranslatorToolExtension extends TranslationExtension
 {
+    private $liveEditEnabled;
+
+    public function __construct(TranslatorInterface $translator, $liveEditEnabled)
+    {
+        parent::__construct($translator);
+        $this->liveEditEnabled = $liveEditEnabled;
+    }
 
     public function getFilters()
     {
@@ -19,10 +27,13 @@ class TranslatorToolExtension extends TranslationExtension
     {
         $translated = $this->getTranslator()->trans($message, $arguments, $domain, $locale);
 
+        if (!$this->liveEditEnabled) {
+            return $translated;
+        }
+
         return
-            '<span class="aecf-translation" style="cursor: pointer">'.$translated.'</span>
-            <input type="text" value="'.$translated.'" name="'.$message.'" id="'.$message.'" data-domain="'.$domain.'" style="display:none" />'
-        ;
+            '<span class="aecf-translation" style="cursor: pointer">' . $translated . '</span>
+            <input type="text" value="' . $translated . '" name="' . $message . '" id="' . $message . '" data-domain="' . $domain . '" style="display:none" />';
     }
 
     public function transchoice($message, $count, array $arguments = array(), $domain = 'messages', $locale = null)
@@ -31,10 +42,13 @@ class TranslatorToolExtension extends TranslationExtension
             $message, $count, array_merge(array('%count%' => $count), $arguments), $domain, $locale
         );
 
+        if (!$this->liveEditEnabled) {
+            return $translated;
+        }
+
         return
-            '<span class="aecf-translation" style="cursor: pointer">'.$translated.'</span>
-            <input type="text" value="'.$translated.'" name="'.$message.'" id="'.$message.'" data-domain="'.$domain.'" style="display:none" />'
-        ;
+            '<span class="aecf-translation" style="cursor: pointer">' . $translated . '</span>
+            <input type="text" value="' . $translated . '" name="' . $message . '" id="' . $message . '" data-domain="' . $domain . '" style="display:none" />';
     }
 
     public function getName()
