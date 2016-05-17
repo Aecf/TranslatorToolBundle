@@ -31,3 +31,9 @@ services:
         public: false
         tags:
             - { name: twig.extension }
+
+    translator.listener:
+        class: AECF\TranslatorToolBundle\Listener\TranslatorToolProfilerListener
+        arguments: ['@twig']
+        tags:
+            - { name: kernel.event_subscriber }

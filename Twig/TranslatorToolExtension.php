@@ -17,12 +17,26 @@ class TranslatorToolExtension extends TranslationExtension
 
     public function trans($message, array $arguments = array(), $domain = null, $locale = null)
     {
-        return '<span class="aecf-translation" style="cursor: pointer">'.$this->getTranslator()->trans($message, $arguments, $domain, $locale).'</span>';
+        $translated = $this->getTranslator()->trans($message, $arguments, $domain, $locale);
+        $uniqid = \uniqid();
+
+        return
+            '<span class="aecf-translation" style="cursor: pointer">'.$translated.'</span>
+            <input type="text" value="'.$translated.'" name="'.$uniqid.'" id="'.$uniqid.'" data-domain="'.$domain.'" style="display:none" />'
+        ;
     }
 
     public function transchoice($message, $count, array $arguments = array(), $domain = null, $locale = null)
     {
-        return '<span class="aecf-translation" style="cursor: pointer">'.$this->getTranslator()->transChoice($message, $count, array_merge(array('%count%' => $count), $arguments), $domain, $locale).'</span>';
+        $translated = $this->getTranslator()->transChoice(
+            $message, $count, array_merge(array('%count%' => $count), $arguments), $domain, $locale
+        );
+        $uniqid = \uniqid();
+
+        return
+            '<span class="aecf-translation" style="cursor: pointer">'.$transchoice.'</span>
+            <input type="text" value="'.$translated.'" name="'.$uniqid.'" id="'.$uniqid.'" data-domain="'.$domain.'" style="display:none" />'
+        ;
     }
 
     public function getName()
