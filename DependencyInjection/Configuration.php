@@ -27,6 +27,7 @@ class Configuration implements ConfigurationInterface
                 ->end() // live_edit
                 ->arrayNode('enabled_locales')
                     ->prototype('scalar')->end()
+                    ->defaultValue(array('%locale%'))
                 ->end() // enabled_locales
                 ->arrayNode('auto_create_missing')
                     ->children()
