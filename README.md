@@ -25,7 +25,8 @@ $ composer require aecf/translator-tool
 #### Enable translation:
 In your app/config/config.yml, just uncomment:
 
-    framework: translator: { fallbacks: [en] }
+    framework:
+        translator: { fallbacks: ["%locale%"] }
 
 #### Enable the bundle:
 
@@ -54,8 +55,7 @@ translator_tool:
     enabled_locales: ['fr', 'en'] # optional, if not specified default value is parameter "locale"
     auto_create_missing:
         enabled: true
-        formats:
-            - yml
+        formats: ['yml']
 ```
 
 Result
