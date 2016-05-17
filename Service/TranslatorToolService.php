@@ -8,6 +8,9 @@ use Symfony\Component\Translation\MessageCatalogue;
 use Symfony\Component\Translation\Writer\TranslationWriter;
 use Symfony\Component\HttpFoundation\Tests\StringableObject;
 use Symfony\Component\Translation\DataCollectorTranslator;
+use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\NullOutput;
 
 class TranslatorToolService
 {
@@ -58,7 +61,7 @@ class TranslatorToolService
      * @param array $formats
      * @param string $rootDir
      */
-    public function __construct(MessageCatalogueLoader $catalogueLoader, CatalogueEditor $editor, $enabledLocales, $autoCreateMissingFormat, array $formats, $rootDir)
+    public function __construct(MessageCatalogueLoader $catalogueLoader, CatalogueEditor $editor, $enabledLocales, $autoCreateMissingFormat, array $formats, $rootDir, $kernel)
     {
         $this->catalogueLoader = $catalogueLoader;
         $this->editor = $editor;
@@ -66,6 +69,7 @@ class TranslatorToolService
         $this->autoCreateMissingFormat = $autoCreateMissingFormat;
         $this->formats = $formats;
         $this->transDir = $rootDir.'/Resources/translations';
+        $this->kernel = $kernel;
     }
 
     /**
@@ -105,6 +109,8 @@ class TranslatorToolService
             $this->editor->saveCatalogue($catalogs[$locale], $this->transDir, $this->formats);
         }
 
+        $this->clearCache();
+
         return $messages;
     }
 
@@ -112,5 +118,19 @@ class TranslatorToolService
     {
         $this->catalogue = $this->catalogueLoader->loadMessageCatalogue($locale, $this->transDir);
         $this->editor->edit($this->catalogue, $id, $translation, $domain, $this->transDir, $this->formats);
+    }
+
+    public function clearCache()
+    {
+        // Clear cache
+        $application = new Application($this->kernel);
+        $application->setAutoExit(false);
+
+        $input = new ArrayInput(array(
+            'command' => 'cache:clear',
+            '--env' => 'dev'
+        ));
+        $output = new NullOutput();
+        $application->run($input, $output);
     }
  }
