@@ -6,7 +6,7 @@ The TranslatorToolBundle adds a symfony profiler tool.
 Features:
 
 - Automatically adds your keys followed by "trans" twig filter in the translation file (create if it does not exist).
-- Adds an interface to add or edit translations, just click on the contents of your word in the "Message Preview" column, type your word and press enter.
+- Adds an interface to add or edit translations, just click on your word in the "Message Preview" column (if you aren't in live edit), type your word and click outside the field.
 - Only the language of your current environment will be impacted.
 
 **Note:** This bundle does *not* provide an translation system but make it easier
@@ -53,9 +53,10 @@ config_dev.yml:
 ```yml
 translator_tool:
     enabled_locales: ['fr', 'en'] # optional, if not specified default value is parameter "locale"
+    live_edit: true
     auto_create_missing:
         enabled: true
-        formats: ['yml']
+        formats: ['yml'] # Supported formats : csv, ini, json, mo, php, po, yml, xml
 ```
 
 Result
