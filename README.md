@@ -80,8 +80,6 @@ About
 
 TranslatorToolBundle is a [AECF](https://github.com/Aecf) initiative.
 
-AECF = Auchan E-Commerce France.
-
 See also the list of [contributors](https://github.com/Aecf/TranslatorToolBundle/contributors).
 
 Reporting an issue or a feature request
