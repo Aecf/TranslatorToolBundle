@@ -1,12 +1,16 @@
 AECF/TranslatorToolBundle
 =============
 
-The TranslatorToolBundle adds a symfony profiler tool.
+The TranslatorToolBundle adds a symfony profiler tool for create and edit your translation.
+It supports multiple languages and formats.
+If you have multiple formats, he will write in several files at once.
+You can live edit your translations (if you set the live_edit at true in config_dev.yml).
+A gray border appear around your words with a trans filter. Just click on it !
 
 Features:
 
 - Automatically adds your keys followed by "trans" twig filter in the translation file (create if it does not exist).
-- Adds an interface to add or edit translations, just click on the contents of your word in the "Message Preview" column, type your word and press enter.
+- Adds an interface to add or edit translations, just click on your word in the "Message Preview" column (if you aren't in live edit), type your word and click outside the field.
 - Only the language of your current environment will be impacted.
 
 **Note:** This bundle does *not* provide an translation system but make it easier
@@ -19,13 +23,14 @@ Installation
 You can install Slugify through [Composer](https://getcomposer.org):
 
 ```shell
-$ composer require aecf/translator-tool
+$ composer require aecf/translator-tool-bundle
 ```
 
 #### Enable translation:
 In your app/config/config.yml, just uncomment:
 
-    framework: translator: { fallbacks: [en] }
+    framework:
+        translator: { fallbacks: ["%locale%"] }
 
 #### Enable the bundle:
 
@@ -52,10 +57,10 @@ config_dev.yml:
 ```yml
 translator_tool:
     enabled_locales: ['fr', 'en'] # optional, if not specified default value is parameter "locale"
+    live_edit: true
     auto_create_missing:
         enabled: true
-        formats:
-            - yml
+        formats: ['yml'] # Supported formats : csv, ini, json, mo, php, po, yml, xml
 ```
 
 Result
