@@ -41,7 +41,7 @@ class TranslatorToolDataCollector extends TranslationDataCollector
         if(true === $this->autoCreateMissingTranslations)
         {
             $messages = $this->translatorTool->createMissingTranslations($this->data['messages']);
-            $this->data = $this->computeCount($messages);
+            $this->data = $this->computeCount($this->data['messages']);
             $this->data['messages'] = $messages;
         }
     }
@@ -82,7 +82,7 @@ class TranslatorToolDataCollector extends TranslationDataCollector
      */
     private function computeCount($messages)
     {
-        $data = array(
+        $count = array(
             DataCollectorTranslator::MESSAGE_DEFINED => 0,
             DataCollectorTranslator::MESSAGE_MISSING => 0,
             DataCollectorTranslator::MESSAGE_EQUALS_FALLBACK => 0,
@@ -91,9 +91,9 @@ class TranslatorToolDataCollector extends TranslationDataCollector
         );
 
         foreach ($messages as $message) {
-            ++$data[$message['state']];
+            ++$count[$message['state']];
         }
 
-        return $data;
+        return $count;
     }
 }

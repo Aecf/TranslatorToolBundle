@@ -22,9 +22,6 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->arrayNode('enabled_locales')
-                    ->addDefaultsIfNotSet(array('%locale%'))
-                ->end()
                 ->arrayNode('auto_create_missing')
                     ->children()
                         ->booleanNode('enabled')
@@ -36,6 +33,9 @@ class Configuration implements ConfigurationInterface
                         ->end()
                     ->end()
                 ->end() // auto_create_missing
+                ->arrayNode('enabled_locales')
+                    ->prototype('scalar')->end()
+                ->end()
             ->end()
         ;
 

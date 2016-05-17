@@ -1,25 +1,26 @@
-parameters:
-    translator_tool.auto_create_missing.enabled:
-    translator_tool.auto_create_missing.format:
-
 services:
     translator_tool.data_collector:
         class: AECF\TranslatorToolBundle\Collector\TranslatorToolDataCollector
         arguments:
-            - @translator.data_collector
-            - @translator_tool
-            - %translator_tool.auto_create_missing.enabled%
+            - "@translator.data_collector"
+            - "@translator_tool"
+            - "%translator_tool.auto_create_missing.enabled%"
         tags:
             - { name: data_collector, template: "TranslatorToolBundle:DataCollector:translator_tool.html.twig", id: "translator_tool" }
 
     translator_tool:
         class: AECF\TranslatorToolBundle\Service\TranslatorToolService
-        arguments: ['@catalogue_loader', '@catalogue_editor', '%locale%', '%translator_tool.auto_create_missing.format%', '%kernel.root_dir%']
+        arguments:
+            - "@catalogue_loader"
+            - "@catalogue_editor"
+            - "%translator_tool.enabled_locales%"
+            - "%translator_tool.auto_create_missing.format%"
+            - "%kernel.root_dir%"
 
     catalogue_loader:
         class: AECF\TranslatorToolBundle\Loader\MessageCatalogueLoader
-        arguments: ['@translation.loader']
+        arguments: ["@translation.loader"]
 
     catalogue_editor:
         class: AECF\TranslatorToolBundle\Editor\CatalogueEditor
-        arguments: ['@translation.writer']
+        arguments: ["@translation.writer"]

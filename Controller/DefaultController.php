@@ -22,12 +22,12 @@ class DefaultController extends Controller
         $params = $request->request->all();
         if(isset($params['id']) && isset($params['translation']) && isset($params['domain']))
         {
-            $service = $this->get('translator_tool');
-            $catalogue = $service->loadCurrentMessageCatalogue();
 
-            if($catalogue->has($params['id'], $params['domain']))
-            {
-                $service->edit($catalogue, $params['id'], $params['translation'], $params['domain']);
+            $service = $this->get('translator_tool');
+            $catalogue = $this->get('catalogue_loader')->loadMessageCatalogue($request->getLocale(), $this->getParameter('kernel.root_dir'));
+
+            if($catalogue->has($params['id'], $params['domain']))  {
+                $service->edit($params['id'], $params['translation'], $params['domain'], $request->getLocale());
 
                 // Clear cache
                 $kernel = $this->get('kernel');
