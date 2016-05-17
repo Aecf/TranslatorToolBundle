@@ -27,7 +27,7 @@ class TranslatorToolService
     /**
      * @var string
      */
-    private $locale;
+    private $enabledLocales;
 
     /**
      * @var string
@@ -67,41 +67,43 @@ class TranslatorToolService
      * @param array $messages
      * @return array
      */
-    public function createMissingTranslations($messages)
+    public function createMissingTranslations(&$messages)
     {
-        $this->catalogue = $this->catalogueLoader->loadMessageCatalogue($this->locale, $this->transDir);
+        $catalogs = array();
+        $catalogsToSave = array();
 
-        $nbAdded = 0;
-        foreach($messages as $key => $message)
-        {
-            if($message['state'] == DataCollectorTranslator::MESSAGE_MISSING
-                || $message['state'] == DataCollectorTranslator::MESSAGE_EQUALS_FALLBACK)
-            {
-                if(!$this->catalogue->has($message['id'], $message['domain']))
-                {
-                    $this->catalogue->set($message['id'], $message['translation'], $message['domain']);
+        foreach ($this->enabledLocales as $locale) {
+            $catalogs[$locale] = $this->catalogueLoader->loadMessageCatalogue($locale, $this->transDir);
+        }
+
+        foreach ($messages as $key => $message) {
+            foreach ($catalogs as $locale => $catalog) {
+                if(!$catalog->has($message['id'], $message['domain'])) {
+                    $catalog->set($message['id'], $message['translation'], $message['domain']);
+                    $catalogsToSave[$locale] = true;
                 }
+            }
 
-                $messages[$key]['state'] = (
-                    $message['state'] == DataCollectorTranslator::MESSAGE_MISSING ?
-                    self::MESSAGE_NEW_WITHOUT_TRANSLATION : self::MESSAGE_NEW_FROM_FALLBACK
-                    );
-
-                $nbAdded++;
+            switch($message['state']) {
+                case DataCollectorTranslator::MESSAGE_MISSING:
+                    $messages[$key]['state'] = self::MESSAGE_NEW_WITHOUT_TRANSLATION;
+                    break;
+                case DataCollectorTranslator::MESSAGE_EQUALS_FALLBACK:
+                    $messages[$key]['state'] = self::MESSAGE_NEW_FROM_FALLBACK;
+                    break;
             }
         }
 
-        if($nbAdded > 0)
-        {
-            $this->editor->saveCatalogue($this->catalogue, $this->autoCreateMissingFormat, $this->transDir);
+        foreach ($catalogsToSave as $locale => $bool) {
+            $this->editor->saveCatalogue($catalogs[$locale], $this->autoCreateMissingFormat, $this->transDir);
         }
 
         return $messages;
     }
 
-    public function edit($id, $translation, $domain)
+    public function edit($id, $translation, $domain, $locale)
     {
-        $this->catalogue = $this->catalogueLoader->loadMessageCatalogue($this->locale, $this->transDir);
+        $this->catalogue = $this->catalogueLoader->loadMessageCatalogue($locale, $this->transDir);
         $this->editor->edit($this->catalogue, $id, $translation, $domain, $this->transDir);
     }
 
