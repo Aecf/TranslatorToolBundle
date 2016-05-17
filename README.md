@@ -1,7 +1,11 @@
 AECF/TranslatorToolBundle
 =============
 
-The TranslatorToolBundle adds a symfony profiler tool.
+The TranslatorToolBundle adds a symfony profiler tool for create and edit your translation.
+It supports multiple languages and formats.
+If you have multiple formats, he will write in several files at once.
+You can live edit your translations (if you set the live_edit at true in config_dev.yml).
+A gray border appear around your words with a trans filter. Just click on it !
 
 Features:
 
