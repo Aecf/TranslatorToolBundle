@@ -22,9 +22,12 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
+                ->booleanNode('live_edit')
+                    ->defaultFalse()
+                ->end() // live_edit
                 ->arrayNode('enabled_locales')
                     ->prototype('scalar')->end()
-                ->end()
+                ->end() // enabled_locales
                 ->arrayNode('auto_create_missing')
                     ->children()
                         ->booleanNode('enabled')

@@ -29,3 +29,16 @@ services:
         public: false
         arguments:
             - "@translation.writer"
+
+    translation.twig_extension:
+        class: AECF\TranslatorToolBundle\Twig\TranslatorToolExtension
+        arguments: ['@translator']
+        public: false
+        tags:
+            - { name: twig.extension }
+
+    translator.listener:
+        class: AECF\TranslatorToolBundle\Listener\TranslatorToolProfilerListener
+        arguments: ['@twig']
+        tags:
+            - { name: kernel.event_subscriber }
