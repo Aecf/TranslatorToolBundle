@@ -32,7 +32,7 @@ class TranslatorToolExtension extends TranslationExtension
         }
 
         return
-            '<span class="aecf-translation" style="cursor: pointer">' . $translated . '</span>
+            '<span class="aecf-translation" style="cursor: pointer; border: 1px dashed gray;">' . $translated . '</span>
             <input type="text" value="' . $translated . '" name="' . $message . '" id="' . $message . '" data-domain="' . $domain . '" style="display:none" />';
     }
 
@@ -47,7 +47,7 @@ class TranslatorToolExtension extends TranslationExtension
         }
 
         return
-            '<span class="aecf-translation" style="cursor: pointer">' . $translated . '</span>
+            '<span class="aecf-translation" style="cursor: pointer; border: 1px dashed gray;">' . $translated . '</span>
             <input type="text" value="' . $translated . '" name="' . $message . '" id="' . $message . '" data-domain="' . $domain . '" style="display:none" />';
     }
 

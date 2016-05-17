@@ -20,7 +20,7 @@
                             var res = JSON.parse(xhttp.response).params;
                             if (res.id == id && res.translation == translation && res.domain == domain) {
                                 event.srcElement.style.display = 'none';
-                                event.srcElement.previousElementSibling.style.display = 'block';
+                                event.srcElement.previousElementSibling.style.display = 'inline';
                                 event.srcElement.previousElementSibling.textContent = res.translation;
                             } else {
                                 alert('An error occured. Please retry.');
