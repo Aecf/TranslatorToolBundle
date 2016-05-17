@@ -23,7 +23,7 @@ Installation
 You can install Slugify through [Composer](https://getcomposer.org):
 
 ```shell
-$ composer require aecf/translator-tool
+$ composer require aecf/translator-tool-bundle
 ```
 
 #### Enable translation:
