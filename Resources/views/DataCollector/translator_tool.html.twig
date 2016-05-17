@@ -5,7 +5,7 @@
 {% block toolbar %}
     {% if collector.messages|length %}
         {% set icon %}
-            {{ include('@WebProfiler/Icon/translation.svg') }}
+            {{ include('@TranslatorTool/Icon/translator-tool.svg') }}
             {% set status_color = collector.countNewWithoutTranslation ? 'red' : collector.countNewFromFallback ? 'yellow' %}
             {% set error_count = collector.countNewWithoutTranslation + collector.countNewFromFallback %}
             <span class="sf-toolbar-value">{{ error_count ?: error_count }}</span>
@@ -33,7 +33,7 @@
 
 {% block menu %}
     <span class="label label-status-{{ collector.countNewWithoutTranslation ? 'error' : collector.countNewFromFallback ? 'warning' }} {{ collector.messages is empty ? 'disabled' }}">
-        <span class="icon">{{ include('@WebProfiler/Icon/translation.svg') }}</span>
+        <span class="icon">{{ include('@TranslatorTool/Icon/translator-tool.svg') }}</span>
         <strong>Translator Tool</strong>
         {% if collector.countNewWithoutTranslation or collector.countNewFromFallback %}
             {% set error_count = collector.countNewWithoutTranslation + collector.countNewFromFallback %}
