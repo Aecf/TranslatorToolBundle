@@ -1,11 +1,13 @@
 {
     "name": "aecf/translator-tool-bundle",
     "description": "A graphical user interface to manage project translations",
+    "keywords": ["translations", "translator"],
     "autoload": {
         "psr-4": {
             "AECF\\TranslatorToolBundle\\": ""
         }
     },
+    "license": "MIT",
     "require": {
         "symfony/http-kernel": "~2.7|~2.8|~3.0",
         "symfony/translation": "~2.7|~2.8|~3.0",
@@ -21,8 +23,20 @@
     },
     "authors": [
         {
+            "name": "Mathieu Dumoutier",
+            "email": "mathieu@dumoutier.fr"
+        },
+        {
             "name": "Fabien Duhamel",
             "email": "fabienduhamel@gmail.com"
+        },
+        {
+            "name": "Benoit Delesalle",
+            "email": "delesalle.ben@gmail.com"
+        },
+        {
+            "name": "Gauthier Burgeat",
+            "email": "171563@supinfo.com"
         }
     ],
     "minimum-stability": "stable"
