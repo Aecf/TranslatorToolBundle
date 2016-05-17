@@ -15,27 +15,25 @@ class TranslatorToolExtension extends TranslationExtension
         );
     }
 
-    public function trans($message, array $arguments = array(), $domain = null, $locale = null)
+    public function trans($message, array $arguments = array(), $domain = 'messages', $locale = null)
     {
         $translated = $this->getTranslator()->trans($message, $arguments, $domain, $locale);
-        $uniqid = \uniqid();
 
         return
             '<span class="aecf-translation" style="cursor: pointer">'.$translated.'</span>
-            <input type="text" value="'.$translated.'" name="'.$uniqid.'" id="'.$uniqid.'" data-domain="'.$domain.'" style="display:none" />'
+            <input type="text" value="'.$translated.'" name="'.$message.'" id="'.$message.'" data-domain="'.$domain.'" style="display:none" />'
         ;
     }
 
-    public function transchoice($message, $count, array $arguments = array(), $domain = null, $locale = null)
+    public function transchoice($message, $count, array $arguments = array(), $domain = 'messages', $locale = null)
     {
         $translated = $this->getTranslator()->transChoice(
             $message, $count, array_merge(array('%count%' => $count), $arguments), $domain, $locale
         );
-        $uniqid = \uniqid();
 
         return
-            '<span class="aecf-translation" style="cursor: pointer">'.$transchoice.'</span>
-            <input type="text" value="'.$translated.'" name="'.$uniqid.'" id="'.$uniqid.'" data-domain="'.$domain.'" style="display:none" />'
+            '<span class="aecf-translation" style="cursor: pointer">'.$translated.'</span>
+            <input type="text" value="'.$translated.'" name="'.$message.'" id="'.$message.'" data-domain="'.$domain.'" style="display:none" />'
         ;
     }
 
