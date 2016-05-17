@@ -29,7 +29,7 @@ class TranslatorToolExtension extends Extension
             'translator_tool.auto_create_missing.enabled', $config['auto_create_missing']['enabled']
         );
         $container->setParameter(
-            'translator_tool.auto_create_missing.format', $config['auto_create_missing']['format']
+            'translator_tool.auto_create_missing.formats', $config['auto_create_missing']['formats']
         );
         $container->setParameter('translator_tool.enabled_locales', $config['enabled_locales']);
         $container->setParameter('translator_tool.live_edit', $config['live_edit']);
