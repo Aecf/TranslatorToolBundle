@@ -19,7 +19,6 @@ class DefaultController extends Controller
         $params = $request->request->all();
         if(isset($params['id']) && isset($params['translation']) && isset($params['domain']))
         {
-
             $service = $this->get('translator_tool');
             $catalogue = $this->get('catalogue_loader')->loadMessageCatalogue($request->getLocale(), $this->getParameter('kernel.root_dir'));
 

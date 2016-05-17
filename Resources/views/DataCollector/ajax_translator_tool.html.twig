@@ -1,25 +1,34 @@
 <script type="text/javascript">
     var translations = document.querySelectorAll("[class=aecf-translation]");
     for (var i = 0; i < translations.length; i++) {
-        translations[i].addEventListener("click", function(event) {
+        translations[i].addEventListener("click", function (event) {
+            event.preventDefault();
             event.srcElement.style.display = 'none';
+            event.srcElement.nextElementSibling.rows = Math.ceil(event.srcElement.nextElementSibling.value.length / 50);
+            event.srcElement.nextElementSibling.cols = (event.srcElement.nextElementSibling.value.length / 50 >= 1) ? 50 : event.srcElement.nextElementSibling.value.length;
             event.srcElement.nextElementSibling.style.display = 'block';
-            event.srcElement.nextElementSibling.addEventListener("focusout", function(event) {
+            event.srcElement.nextElementSibling.focus();
+            event.srcElement.nextElementSibling.setSelectionRange(event.srcElement.nextElementSibling.value.length, event.srcElement.nextElementSibling.value.length);
+            event.srcElement.nextElementSibling.addEventListener("keyup", function (event) {
+                event.srcElement.rows = Math.ceil(event.srcElement.value.length / 50);
+                event.srcElement.cols = (event.srcElement.value.length / 50 >= 1) ? 50 : event.srcElement.value.length;
+            });
+            event.srcElement.nextElementSibling.addEventListener("focusout", function (event) {
                 var xhttp = new XMLHttpRequest(),
-                    id = event.srcElement.getAttribute('id'),
-                    translation = event.srcElement.value,
-                    domain = event.srcElement.getAttribute('data-domain')
-                ;
+                        id = event.srcElement.getAttribute('id'),
+                        translation = event.srcElement.value,
+                        domain = event.srcElement.getAttribute('data-domain')
+                        ;
                 xhttp.open("POST", "{{ path('aecf_translatortool_default_edit') }}", true);
                 xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                 xhttp.send("id=" + id + "&translation=" + translation + "&domain=" + domain);
-                xhttp.onreadystatechange = function() {
+                xhttp.onreadystatechange = function () {
                     if (xhttp.readyState == 4) {
                         if (xhttp.status == 200) {
                             var res = JSON.parse(xhttp.response).params;
                             if (res.id == id && res.translation == translation && res.domain == domain) {
                                 event.srcElement.style.display = 'none';
-                                event.srcElement.previousElementSibling.style.display = 'block';
+                                event.srcElement.previousElementSibling.style.display = 'inline';
                                 event.srcElement.previousElementSibling.textContent = res.translation;
                             } else {
                                 alert('An error occured. Please retry.');

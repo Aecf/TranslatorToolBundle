@@ -151,7 +151,7 @@
                 </td>
                 <td>
                     <span class="aecf-translation" style="cursor: pointer">{{ message.translation }}</span>
-                    <input type="text" value="{{ message.translation }}" name="{{ message.id }}" id="{{ message.id }}" data-domain="{{ message.domain }}" style="display:none" />
+                    <textarea name="{{ message.id }}" id="{{ message.id }}" data-domain="{{ message.domain }}" style="display:none">{{ message.translation }}</textarea>
                 </td>
             </tr>
         {% endfor %}
