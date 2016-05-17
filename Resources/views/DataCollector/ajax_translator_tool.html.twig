@@ -4,6 +4,8 @@
         translations[i].addEventListener("click", function(event) {
             event.preventDefault();
             event.srcElement.style.display = 'none';
+            event.srcElement.nextElementSibling.rows = Math.ceil(event.srcElement.nextElementSibling.value.length / 50);
+            event.srcElement.nextElementSibling.cols = 50;
             event.srcElement.nextElementSibling.style.display = 'block';
             event.srcElement.nextElementSibling.addEventListener("focusout", function(event) {
                 var xhttp = new XMLHttpRequest(),
