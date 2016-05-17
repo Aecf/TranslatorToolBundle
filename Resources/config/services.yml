@@ -19,6 +19,7 @@ services:
             - "%translator_tool.auto_create_missing.enabled%"
             - "%translator_tool.auto_create_missing.formats%"
             - "%kernel.root_dir%"
+            - "@kernel"
 
     catalogue_loader:
         class: AECF\TranslatorToolBundle\Loader\MessageCatalogueLoader
