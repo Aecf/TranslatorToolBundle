@@ -20,7 +20,7 @@ Features:
 Installation
 ------------
 
-You can install Slugify through [Composer](https://getcomposer.org):
+You can install TranslatorToolBundle through [Composer](https://getcomposer.org):
 
 ```shell
 $ composer require aecf/translator-tool-bundle
